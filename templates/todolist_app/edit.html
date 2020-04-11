@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Todo_list_App|Edit item</title>
+{% endblock  %}
+
+{% block content %}
+  {% if s_task %}
+  <form class="mt-1 row" method="POST">
+    {% csrf_token %}
+        <input type="text" class="form-control col-lg-4" name="task" placeholder="{{ s_task.task }}" value="{{ s_task.task }}">
+        <button type="submit" class="btn btn-primary col-lg-2  ml-1 ">Edit</button>
+       
+        <a class="btn btn-info col-lg-2 ml-1" href="{% url 'index' %}">Cancel</a>
+        <input type="hidden" class="col-lg-4">
+          <div class=" form-check col-lg-12">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="done">Mark As Completed
+              </label>
+           </div>
+    </form>
+    
+  {% endif %}
+
+{% endblock %}    

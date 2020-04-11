@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Todo_list_App</title>
+{% endblock  %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    {% endfor %}
+
+{% endif %}
+<form class="mt-1 row" method="POST">
+{% csrf_token %}
+    <span class="col-lg-4"></span>
+    <input type="text" class="form-control col-lg-5" name="task" placeholder="Todo  item | Add Here">
+    <button type="submit" class="btn btn-primary col-lg-2 ml-1">Add</button>
+</form>
+   <table class="table table-bordered mt-1">
+   <thead class="thead-dark">
+    <tr>
+      <th scope="col">Task</th>
+      <th scope="col">Status</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% if tasklist %}
+    {% for obj in tasklist %}
+        {% if obj.done %}
+          <tr class="table-danger">
+          <td> {{obj.task}}</td>
+          <td> Completed <a class="btn btn-outline-info btn-sm" href="{% url 'mark_as_pending' obj.id %}" name="done">Change</a> </td>
+          <td><a href="{% url 'task_edit' obj.id %}">Edit</a> </td>
+          <td><a href="{% url 'task_delete' obj.id %}">delete</a></td>
+          </tr>
+        {% else %}  
+        <tr>
+          <td> {{obj.task}}</td>
+          <td> Pending..... <a class="btn btn-outline-info btn-sm" href="{% url 'mark_as_completed' obj.id %}" name="done">  Change</a></td>
+          <td><a href="{% url 'task_edit' obj.id %}">Edit</a> </td>
+          <td><a href="{% url 'task_delete' obj.id %}">delete</a></td>
+          </tr>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+ </tbody>
+</table>
+{% endblock %}
+

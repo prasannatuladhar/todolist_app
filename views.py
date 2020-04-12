@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import TaskList
 from .forms import TaskForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 def index(request):
     if request.method == "POST":
@@ -12,6 +13,9 @@ def index(request):
         return redirect('index')
     else:
         task = TaskList.objects.all()
+        paginator = Paginator(task, 5)
+        page_number = request.GET.get('page')
+        task = paginator.get_page(page_number)
         return render(request,'todolist_app/index.html',{'tasklist':task})
 
 def task_delete(request,task_id):
